@@ -11,12 +11,9 @@ var keyCodes = {
 	74: "down"
 };
 
-/** 
- * 2048 GAME CLASS 
- * This is using 4 x 4 grid
- */
+// 2048 GAME CLASS //
+// // // // // // //
 function Game(display, rows, cols) {
-	// || or operation, set default value
 	this.rows = rows || 4;
 	this.cols = cols || 4;
 	this.numStartTiles = 2;
@@ -33,17 +30,15 @@ function Game(display, rows, cols) {
 	this.display = display;
 }
 
-/** 
- * Clear grid and start over
- */
 Game.prototype.clear = function() {
+	this.goal = 2048;
 	this.ended = false;
 	this.paused = false;
-	this.goal = 2048;
 	this.display.clear();
-	for (var i = 0; i < this.rows; i++){
+	for (var i = 0; i < this.rows; i++) {
 		for (var j = 0; j < this.cols; j++) {
 			this.plan[i][j] = 0;
+		}
 	}
 };
 
@@ -64,19 +59,13 @@ Game.prototype.pause = function(state) {
 	this.paused = (state === 0) ? true : false;
 };
 
-/** 
- * After a move was made, add one Tile randomly
- */
 Game.prototype.addRandomTile = function() {
 	if (this.ended || this.paused)
 		return;
 
 	var randomIndex, rowIndex, colIndex;
-		// tile content can only be 2 or 4
 		tileContent = Math.random() > 0.3 ? 2 : 4;
 
-
-	// Find an empty tile (plan[row][col] = 0) to insert tileContent
 	do {
 		randomIndex	= Math.floor(Math.random() * this.cols * this.rows);
 		rowIndex = Math.floor(randomIndex / this.rows);
@@ -85,12 +74,11 @@ Game.prototype.addRandomTile = function() {
 
 	this.plan[rowIndex][colIndex] = tileContent;
 	this.display.newTile(this.plan, rowIndex, colIndex);
+
 	this.checkResult();
 };
 
-/** 
- * Move the tiles in the specific direction
- */
+// Move the tiles in the specific direction
 Game.prototype.move = function(direction) {
 	if (this.ended || this.paused)
 		return;
@@ -185,7 +173,6 @@ Game.prototype.move = function(direction) {
 	if (madeAMove)
 		this.addRandomTile();
 };
-
 
 Game.prototype.checkResult = function() {
 	var planFull = true;
